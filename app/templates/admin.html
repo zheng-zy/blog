@@ -1,0 +1,45 @@
+{% include "header.html" %}
+
+
+<div class="container">
+
+    <a class="btn btn-primary btn-large" href="{{ url_for('.edit_new') }}">New Post</a>
+    <div id="push"></div>
+
+
+    <table class="table">
+
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>navigation</th>
+            <th>Delete</th>
+            <th></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for post in posts %}
+            {% if post.navigation | int == 1 %}
+                <tr class="success">
+                    <td><a href='{{ url_for('.edit', id=post.id) }}'> {{ post.title }} </a></td>
+                    <td><a class="btn btn-success">navigation</a></td>
+                    {% else %}
+                <tr>
+                <td><a href='{{ url_for('.edit', id=post.id) }}'> {{ post.title }} </a></td>
+                <td></td>
+            {% endif %}
+        <td><a class="btn btn-danger" href="{{ url_for('.delete', id=post.id) }}">Delete</a></td>
+        </tr>
+        {% endfor %}
+
+
+        </tbody>
+    </table>
+
+
+</div>
+
+
+{% include "footer.html" %}
+

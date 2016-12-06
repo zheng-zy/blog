@@ -1,0 +1,24 @@
+{% include "header.html" %}
+{% import "_macros.html" as macros %}
+
+<div class="container">
+
+    {% include '_post.html' %}
+    {#    {% for entry in result %}#}
+    {#        <div class="page-header">#}
+    {#            <h1><a href="/blog/{{ entry[0] }}">{{ entry[1] }}</a></h1>#}
+    {#            <p class="lead">#}
+    {#                {{ entry[2]|safe }}#}
+    {#            </p>#}
+    {#        </div>#}
+
+    {#    {% else %}#}
+    {#        <em>Unbelievable. No entries here so far</em>#}
+    {#    {% endfor %}#}
+
+    {% if paginate %}
+        {{ macros.render_pagination(paginate, '.index') }}
+    {% endif %}
+
+</div>
+{% include "footer.html" %}
