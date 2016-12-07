@@ -35,11 +35,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="brand" href="/">{{ blogname }}</a>
+                <a class="brand" href="{{ url_for('.index') }}">{{ blogname }}</a>
                 <div class="nav-collapse collapse">
                     <ul class="nav">
-                        <li class="disactive"><a href="/blog/">blog</a></li>
-
+                        <li class="disactive"><a href="{{ url_for('.index') }}">blog</a></li>
 
                         {% for nav in navs %}
                             <li><a href="/blog/{{ nav[0] }}">{{ nav[1] }}</a></li>

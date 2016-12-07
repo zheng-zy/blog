@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # coding=utf-8
 # Created by zhezhiyong@163.com on 2016/12/6.
-from flask import render_template, request
+from datetime import datetime
+
+from flask import render_template, redirect, request, flash, url_for
 
 from . import admin
 from ..models import Post
@@ -12,8 +14,6 @@ from ..models import Post
 def index(page=None):
     if page is None:
         page = 1
-    for p in Post.objects:
-        print p.title
     paginate = Post.objects.paginate(page=page, per_page=10)
     posts = paginate.items
     return render_template('admin.html', posts=posts, paginate=paginate)
@@ -26,24 +26,32 @@ def edit_new():
 
 @admin.route('/edit/<id>', methods=['GET', 'POST'])
 def edit(id):
-    if id:
-        return id
-    return render_template('editor_new.html')
+    post = Post.objects.get_or_404(id=id)
+    return render_template('editor_update.html', post=post)
 
 
-@admin.route('/delete', methods=['GET', 'POST'])
 @admin.route('/delete/<id>', methods=['GET', 'POST'])
 def delete(id):
-    return id
+    Post.objects(id=id).delete()
+    flash('a blog was successfully deleted')
+    return redirect(url_for('.index'))
 
 
 @admin.route('/update', methods=['GET', 'POST'])
 def update_new():
-    form = request.form
-    print request.form
-    return 'hhh'
-
-
-@admin.route('/update/<id>', methods=['GET', 'POST'])
-def update(id):
-    return id
+    if request.form['type'] == 'new':
+        if 'navigation' in request.form:
+            if request.form['navigation'] == "yes":
+                Post(title=request.form['title'], content=request.form['content'], navigation=1).save()
+        else:
+            Post(title=request.form['title'], content=request.form['content'], navigation=0).save()
+    elif request.form['type'] == 'update':
+        if 'navigation' in request.form:
+            if request.form['navigation'] == "yes":
+                Post.objects(id=request.form['id']).update(title=request.form['title'], content=request.form['content'],
+                                                           navigation=1, modify_time=datetime.now)
+        else:
+            Post.objects(id=request.form['id']).update(title=request.form['title'], content=request.form['content'],
+                                                       navigation=0, modify_time=datetime.now)
+    flash('New blog was successfully updated')
+    return redirect(url_for('.index'))
