@@ -1,3 +1,4 @@
+{% import "_macros.html" as macros with context %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,9 +18,7 @@
     <!--[if lt IE 9]>
       <script src="{{ url_for('static', filename='html5shiv.js') }}"></script>
     <![endif]-->
-
 </head>
-
 <body>
 
 <!-- Part 1: Wrap all page content here -->
@@ -56,11 +55,53 @@
                                 </div>
                             </li>
                         {% endif %}
-
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
         </div>
     </div>
+    {% block content %}{% endblock %}
+    <div id="push"></div>
+</div>
 
 
+<div id="footer">
+    <div class="container">
+        <p class="muted credit">Powered by <a href="https://github.com/zheng-zy">Zheng ZhiYong</a>.</p>
+    </div>
+</div>
+
+
+<!-- Le javascript
+================================================== -->
+
+<script type=text/javascript src="{{ url_for('static', filename='jquery.js') }}"></script>
+<script type=text/javascript src="{{ url_for('static', filename='formUploadProgress.js') }}"></script>
+<script type=text/javascript src="{{ url_for('static', filename='jquery.form.js') }}"></script>
+<script type=text/javascript src="{{ url_for('static', filename='jquery.gollum.js') }}"></script>
+<script type=text/javascript src="{{ url_for('static', filename='bootstrap.min.js') }}"></script>
+<script type=text/javascript src="{{ url_for('static', filename='gollum.markdown.js') }}"></script>
+
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        //console.log( "ready!" );
+
+        $('#editor').gollum({
+            uploadURL: '/admin/upload',
+            progressURL: '/admin/upload_progress',
+            uploadProgressName: 'PHP_SESSION_UPLOAD_PROGRESS',
+            progressId: 1,
+        });
+
+        $('#preview').click(function (e) {
+            $.post("/markdown", {title: $("#title").val(), content: $("#editor").val()})
+                .done(function (data) {
+                    $("#tab2").html(data);
+                });
+        });
+    });
+
+</script>
+</body>
+</html>

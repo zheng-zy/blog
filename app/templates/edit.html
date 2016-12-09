@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+
+    <div class="tabbable"> <!-- Only required for left/right tabs -->
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab1" data-toggle="tab">Writing</a></li>
+            <li><a href="#tab2" data-toggle="tab" id="preview">Preview</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab1">
+                {% if post.id %}
+                    <form class="form-horizontal" action="{{ url_for('.edit', id=post.id) }}" method="post">
+                {% else %}
+                    <form class="form-horizontal" action="{{ url_for('.add') }}" method="post">
+                {% endif %}
+                <h2>Title</h2>
+
+                <input class="input-xxlarge" type="text" id="title" name="title" value="{{ post.title }}">
+                <p class="help-block"></p>
+
+                {% if post.navigation | int == 1 %}
+                    <label class="checkbox"><input type="checkbox" name="navigation" value="yes" checked> Add to
+                        navigation bar?</label>
+                {% else %}
+                    <label class="checkbox"><input type="checkbox" name="navigation" value="yes"> Add to navigation
+                        bar?</label>
+                {% endif %}
+
+                <textarea id="editor" name="content">{{ post.content }}</textarea>
+                <input type="submit" value="Save" class="btn btn-primary"/>
+                <a href="{{ url_for('.index') }}"><input type="button" value="Cancle" class="btn"/></a>
+                {% if post.id %}
+                    <a href="{{ url_for('.delete', id=post.id) }}"> <input type="button" class="btn btn-danger"
+                                                                           value="Delete"/></a>
+                {% endif %}
+                </form>
+            </div>
+            <div class="tab-pane" id="tab2">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+

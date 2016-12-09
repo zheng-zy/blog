@@ -1,14 +1,10 @@
-{% include "header.html" %}
-
-
+{% extends 'base.html' %}
+{% block content %}
 <div class="container">
-
-    <a class="btn btn-primary btn-large" href="{{ url_for('.edit_new') }}">New Post</a>
+    <a class="btn btn-primary btn-large" href="{{ url_for('.add') }}">New Post</a>
     <div id="push"></div>
 
-
     <table class="table">
-
         <thead>
         <tr>
             <th>Title</th>
@@ -32,14 +28,9 @@
         <td><a class="btn btn-danger" href="{{ url_for('.delete', id=post.id) }}">Delete</a></td>
         </tr>
         {% endfor %}
-
-
         </tbody>
     </table>
-
-
 </div>
+{% endblock %}
 
-
-{% include "footer.html" %}
 

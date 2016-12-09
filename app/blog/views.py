@@ -29,4 +29,4 @@ def post(id):
                                       extras=["code-friendly", "code-color", "cuddled-lists", "tables", "footnotes",
                                               "pyshell", "toc"])
     posts = [post]
-    return render_template('blog.html', posts=posts, )
+    return render_template('blog.html', posts=posts)

@@ -1,12 +1,11 @@
-{% include "header.html" %}
-{% import "_macros.html" as macros %}
-
-<div class="container">
-
-    {% include '_post.html' %}
-    {% if paginate %}
-        {{ macros.render_pagination(paginate, '.index') }}
-    {% endif %}
-
-</div>
-{% include "footer.html" %}
+{#{% include "header.html" %}#}
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+        {% include '_post.html' %}
+        {% if paginate %}
+            {{ macros.render_pagination(paginate, '.index') }}
+        {% endif %}
+    </div>
+{% endblock %}
+{#{% include "footer.html" %}#}
